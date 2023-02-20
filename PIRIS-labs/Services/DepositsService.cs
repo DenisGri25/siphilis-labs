@@ -64,11 +64,11 @@ namespace PIRIS_labs.Services
 
           decimal amount = createDepositDto.Amount;
           var cashboxAccount = await _unitOfWork.Accounts.GetBankCashboxAccount();
-         // var developmentFundAccount = await _unitOfWork.Accounts.GetBankDevelopmentFundAccount();
+          var developmentFundAccount = await _unitOfWork.Accounts.GetBankDevelopmentFundAccount();
 
           cashboxAccount.DebitValue += amount;
           await _transactionsService.CreateTransaction(cashboxAccount, mainAccount, amount);
-         // await _transactionsService.CreateTransaction(mainAccount, developmentFundAccount, amount);
+          await _transactionsService.CreateTransaction(mainAccount, developmentFundAccount, amount);
 
           _unitOfWork.Deposits.Add(deposit);
           await _unitOfWork.SaveAsync();

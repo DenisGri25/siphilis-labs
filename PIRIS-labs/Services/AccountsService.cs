@@ -76,26 +76,19 @@ namespace PIRIS_labs.Services
             var client = await _unitOfWork.Clients.FindAsync(clientID);
             int accountNumber = _unitOfWork.Accounts.GetClientsLastAccountNumber(clientID);
             var accountPlan = await _unitOfWork.AccountPlans.FindAsync(_passiveIndividualAccountNumber);
-            Random random = new Random();
-            var test = random.Next();
-            if (client.Number == 0 && client.Number != test)
-            {
-                client.Number = test;
-                _unitOfWork.Clients.Update(client);
-            }
 
             var mainAccount = new Account
             {
                 OwnerID = clientID,
                 AccountPlan = accountPlan,
-                Number = GenerateAccountNumber(_passiveIndividualAccountNumber, client.Number, ++accountNumber),
+                Number = GenerateAccountNumber(_passiveIndividualAccountNumber, client.Number, ++accountNumber)
             };
 
             var percentAccount = new Account
             {
                 OwnerID = clientID,
                 AccountPlan = accountPlan,
-                Number = GenerateAccountNumber(_passiveIndividualAccountNumber, client.Number, ++accountNumber),
+                Number = GenerateAccountNumber(_passiveIndividualAccountNumber, client.Number, ++accountNumber)
             };
 
             _unitOfWork.Accounts.Add(mainAccount);
@@ -134,7 +127,7 @@ namespace PIRIS_labs.Services
             return (mainAccount, percentAccount);
         }
 
-        private string GenerateAccountNumber(string accountPlanNumber, long clientNumber, int accountNumber)
+        private string GenerateAccountNumber(string accountPlanNumber, int clientNumber, int accountNumber)
         {
             return $"{accountPlanNumber}{clientNumber:00000}{accountNumber:000}7";
         }
