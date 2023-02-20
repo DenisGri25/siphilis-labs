@@ -13,9 +13,8 @@ namespace PIRIS_labs.Data.Entities
   {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid ID { get; set; }
-
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Number { get; set; }
+    
+    public long Number { get; set; } 
 
     [Required]
     [MaxLength(250)]

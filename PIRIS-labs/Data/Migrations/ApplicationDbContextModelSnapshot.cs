@@ -241,8 +241,7 @@ namespace PIRIS_labs.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Number")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("Number")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PassportIssuedBy")
@@ -328,7 +327,7 @@ namespace PIRIS_labs.Migrations
                             MaritalStatusName = "Single",
                             Name = "Lockhart",
                             NationalityName = "Austrian",
-                            Number = 0,
+                            Number = 0L,
                             PassportIssuedBy = "Österreichische Staatsdruckerei",
                             PassportIssuedDate = new DateTime(2003, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PassportNumber = "0926088",

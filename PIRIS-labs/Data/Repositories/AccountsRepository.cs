@@ -32,7 +32,7 @@ namespace PIRIS_labs.Data.Repositories
 
     public async Task<Account> GetBankDevelopmentFundAccount()
     {
-      return await DbSet.FindAsync("7327000010017");
+      return await DbSet.FindAsync("1010000010027");
     }
 
     public async Task<Account> GetBankCashboxAccount()
