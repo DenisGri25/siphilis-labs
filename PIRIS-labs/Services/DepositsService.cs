@@ -62,11 +62,11 @@ namespace PIRIS_labs.Services
 
           await _unitOfWork.SaveAsync();
 
-          float amount = createDepositDto.Amount;
+          decimal amount = createDepositDto.Amount;
           var cashboxAccount = await _unitOfWork.Accounts.GetBankCashboxAccount();
          // var developmentFundAccount = await _unitOfWork.Accounts.GetBankDevelopmentFundAccount();
 
-          cashboxAccount.DebitValue += (float)amount;
+          cashboxAccount.DebitValue += amount;
           await _transactionsService.CreateTransaction(cashboxAccount, mainAccount, amount);
          // await _transactionsService.CreateTransaction(mainAccount, developmentFundAccount, amount);
 
@@ -102,8 +102,8 @@ namespace PIRIS_labs.Services
         var clientPercentAccount = deposit.PercentAccount;
         var cashboxAccount = await _unitOfWork.Accounts.GetBankCashboxAccount();
         var developmentFundAccount = await _unitOfWork.Accounts.GetBankDevelopmentFundAccount();
-        float depositAmount = deposit.Amount;
-        float depositPercentsAmount = clientPercentAccount.Balance;
+        decimal depositAmount = deposit.Amount;
+        decimal depositPercentsAmount = clientPercentAccount.Balance;
 
         await _transactionsService.CreateTransaction(developmentFundAccount, clientMainAccount, depositAmount);
         await _transactionsService.CreateTransaction(clientMainAccount, cashboxAccount, depositAmount);
@@ -151,7 +151,7 @@ namespace PIRIS_labs.Services
         }
         else
         {
-          float amount = depositPercentAccount.Deposit.Amount * (float)(depositPercentAccount.Percent / 100 / (DateTime.IsLeapYear(_dateService.Today.Year) ? 366 : 365));
+          decimal amount = depositPercentAccount.Deposit.Amount * (depositPercentAccount.Percent / 100 / (DateTime.IsLeapYear(_dateService.Today.Year) ? 366 : 365));
           amount *= days;
           await _transactionsService.CreateTransaction(developmentFundAccount, depositPercentAccount.Account, amount);
         }

@@ -7,7 +7,7 @@ namespace PIRIS_labs.DTOs.ATM
     public string Number { get; set; }
     public string ClientFullName { get; set; }
 
-    public float Amount { get; set; }
+    public decimal Amount { get; set; }
     public DateTime TransactionTime { get; set; }
     public string CreditAccountNumber { get; set; }
   }

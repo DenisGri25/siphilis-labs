@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +23,11 @@ namespace PIRIS_labs
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlite("Filename=identifier.sqlite"));
+        // options.UseSqlite("Filename=identifier.sqlite"));
           // options.UseLazyLoadingProxies()
           //   .UseSqlServer("data source=ASUS\\SQLEXPRESS;initial catalog=Bank1; trusted_connection=true"));
+        options.UseLazyLoadingProxies()
+            .UseSqlServer(@"data source=(localdb)\MSSQLLocalDB;initial catalog=test_bank; trusted_connection=true;"));
           services.AddRazorPages();
       services.AddServerSideBlazor();
       services.AddDatabaseDeveloperPageExceptionFilter();

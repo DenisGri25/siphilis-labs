@@ -11,8 +11,8 @@ namespace PIRIS_labs.Data.Entities
     [StringLength(50)]
     public string Name { get; set; }
     public int MonthPeriod { get; set; }
-    public float Percent { get; set; }
-    public float? MinAmount { get; set; }
+    public decimal Percent { get; set; }
+    public decimal? MinAmount { get; set; }
     public bool Anuity { get; set; }
   }
 }

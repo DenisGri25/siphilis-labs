@@ -10,9 +10,9 @@ namespace PIRIS_labs.Data.Entities
     [StringLength(13)]
     public string Number { get; set; }
 
-    public float DebitValue { get; set; }
-    public float CreditValue { get; set; }
-    public float Balance { get; set; }
+    public decimal DebitValue { get; set; }
+    public decimal CreditValue { get; set; }
+    public decimal Balance { get; set; }
 
     public int? ClientsAccountNumber { get; set; }
 

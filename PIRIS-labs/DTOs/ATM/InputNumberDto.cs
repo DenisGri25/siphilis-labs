@@ -6,6 +6,6 @@ namespace PIRIS_labs.DTOs.ATM
   {
     [Required]
     [Range(1, 100000, ErrorMessage = "Entered amount should be in range [1, 100000]")]
-    public float Number { get; set; }
+    public decimal Number { get; set; }
   }
 }

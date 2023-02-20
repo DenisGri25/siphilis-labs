@@ -13,7 +13,7 @@ namespace PIRIS_labs.Data.Entities
     [StringLength(250)]
     public string Name { get; set; }
 
-    public float Percent { get; set; }
+    public decimal Percent { get; set; }
     public int DayPeriod { get; set; }
     public bool Revocable { get; set; }
   }

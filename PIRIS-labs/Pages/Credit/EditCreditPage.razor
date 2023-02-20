@@ -216,7 +216,7 @@
 
     var creditPlan = _creditPlans.FirstOrDefault(plan => plan.ID == _createCreditDto.CreditPlanID);
 
-    if (_createCreditDto.Amount >= (double)creditPlan.MinAmount.GetValueOrDefault())
+    if (_createCreditDto.Amount >= creditPlan.MinAmount.GetValueOrDefault())
     {
       using var scope = serviceScopeFactory.CreateScope();
       var creditsSerivce = scope.ServiceProvider.GetService<CreditsService>();
@@ -243,7 +243,7 @@
 
     if (creditPlan is not null)
     {
-      if (_createCreditDto.Amount >= (double)creditPlan.MinAmount.GetValueOrDefault())
+      if (_createCreditDto.Amount >= creditPlan.MinAmount.GetValueOrDefault())
       {
         ShowNonAnuityColumn = !creditPlan.Anuity;
         CalculatingPercents = true;

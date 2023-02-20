@@ -2,10 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PIRIS_labs.Data;
-
-#nullable disable
 
 namespace PIRIS_labs.Migrations
 {
@@ -15,34 +14,39 @@ namespace PIRIS_labs.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
+            modelBuilder
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                .HasAnnotation("SqlServer:IdentitySeed", 1)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("PIRIS_labs.Data.Entities.Account", b =>
                 {
                     b.Property<string>("Number")
                         .HasMaxLength(13)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("AccountPlanNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(4)");
 
-                    b.Property<float>("Balance")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ClientsAccountNumber")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("int")
                         .HasComputedColumnSql("CAST(SUBSTRING([Number], 10, 3) AS INT)", true);
 
-                    b.Property<float>("CreditValue")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("CreditValue")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("DebitValue")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("DebitValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("OwnerID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Number");
 
@@ -57,18 +61,18 @@ namespace PIRIS_labs.Migrations
                         {
                             Number = "7327000010017",
                             AccountPlanNumber = "7327",
-                            Balance = 1E+09f,
-                            CreditValue = 1E+09f,
-                            DebitValue = 0f,
+                            Balance = 1000000000m,
+                            CreditValue = 1000000000m,
+                            DebitValue = 0m,
                             OwnerID = new Guid("627de68a-7c1e-4983-9345-61351783b9e7")
                         },
                         new
                         {
                             Number = "1010000010027",
                             AccountPlanNumber = "1010",
-                            Balance = 0f,
-                            CreditValue = 0f,
-                            DebitValue = 0f,
+                            Balance = 0m,
+                            CreditValue = 0m,
+                            DebitValue = 0m,
                             OwnerID = new Guid("627de68a-7c1e-4983-9345-61351783b9e7")
                         });
                 });
@@ -77,15 +81,15 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Number")
                         .HasMaxLength(4)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Number");
 
@@ -122,7 +126,7 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Name")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Name");
 
@@ -179,118 +183,122 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ActualResidenceAddress")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ActualResidenceCityName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("BirthPlace")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("Birthday")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DisabilityName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("HomePhoneNumber")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("IdentificationNumber")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("LiableForMilitaryService")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("MaritalStatusName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("MobilePhoneNumber")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int?>("MonthlyIncome")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("NationalityName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
-                    b.Property<long>("Number")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("Number")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("PassportIssuedBy")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("PassportIssuedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PassportNumber")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PassportSeries")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("Pensioner")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Position")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("RegistrationAddress")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("RegistrationCityName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("WorkPlace")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("ID");
 
@@ -327,7 +335,7 @@ namespace PIRIS_labs.Migrations
                             MaritalStatusName = "Single",
                             Name = "Lockhart",
                             NationalityName = "Austrian",
-                            Number = 0L,
+                            Number = 0,
                             PassportIssuedBy = "Österreichische Staatsdruckerei",
                             PassportIssuedDate = new DateTime(2003, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PassportNumber = "0926088",
@@ -346,33 +354,33 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ClientID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("CreditPlanID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MainAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("PercentAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -391,22 +399,22 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Number")
                         .HasMaxLength(16)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("CreditAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("OwnerID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PIN")
                         .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(4)");
 
                     b.HasKey("Number");
 
@@ -421,24 +429,24 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Anuity")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
-                    b.Property<float?>("MinAmount")
-                        .HasColumnType("REAL");
+                    b.Property<decimal?>("MinAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("MonthPeriod")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<float>("Percent")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Percent")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID");
 
@@ -449,10 +457,10 @@ namespace PIRIS_labs.Migrations
                         {
                             ID = new Guid("a64f6381-32b4-423e-b9dd-498418dde886"),
                             Anuity = true,
-                            MinAmount = 100f,
+                            MinAmount = 100m,
                             MonthPeriod = 60,
                             Name = "Standard",
-                            Percent = 11.25f
+                            Percent = 11.25m
                         },
                         new
                         {
@@ -460,16 +468,16 @@ namespace PIRIS_labs.Migrations
                             Anuity = false,
                             MonthPeriod = 80,
                             Name = "Standard+",
-                            Percent = 13.33f
+                            Percent = 13.33m
                         },
                         new
                         {
                             ID = new Guid("d228a00e-cc18-457d-90ba-184d229a333c"),
                             Anuity = false,
-                            MinAmount = 10000000f,
+                            MinAmount = 10000000m,
                             MonthPeriod = 120,
                             Name = "Medium",
-                            Percent = 8.75f
+                            Percent = 8.75m
                         },
                         new
                         {
@@ -477,7 +485,7 @@ namespace PIRIS_labs.Migrations
                             Anuity = true,
                             MonthPeriod = 120,
                             Name = "Ultra",
-                            Percent = 21f
+                            Percent = 21.0m
                         });
                 });
 
@@ -485,17 +493,17 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Code")
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Code");
 
@@ -550,33 +558,33 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ClientID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("DepositPlanID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MainAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("PercentAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -595,21 +603,21 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DayPeriod")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
-                    b.Property<float>("Percent")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Percent")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Revocable")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 
@@ -621,7 +629,7 @@ namespace PIRIS_labs.Migrations
                             ID = new Guid("d8ffaf98-6dcb-4310-a76d-39d0a2b7ed48"),
                             DayPeriod = 20,
                             Name = "Standard",
-                            Percent = 0.01f,
+                            Percent = 0.01m,
                             Revocable = true
                         },
                         new
@@ -629,7 +637,7 @@ namespace PIRIS_labs.Migrations
                             ID = new Guid("979f2c2e-f263-43b3-aca6-800fa0a3668f"),
                             DayPeriod = 40,
                             Name = "Standard+",
-                            Percent = 0.05f,
+                            Percent = 0.05m,
                             Revocable = false
                         },
                         new
@@ -637,7 +645,7 @@ namespace PIRIS_labs.Migrations
                             ID = new Guid("464fe5a5-1621-4078-9258-cc6d9bca5147"),
                             DayPeriod = 100,
                             Name = "Medium",
-                            Percent = 0.1f,
+                            Percent = 0.1m,
                             Revocable = false
                         },
                         new
@@ -645,7 +653,7 @@ namespace PIRIS_labs.Migrations
                             ID = new Guid("5125376b-1fb8-4e1d-80ee-df7a5504cf9b"),
                             DayPeriod = 220,
                             Name = "Ultra",
-                            Percent = 0.4f,
+                            Percent = 0.4m,
                             Revocable = true
                         });
                 });
@@ -654,7 +662,7 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Name")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Name");
 
@@ -683,7 +691,7 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Name")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Name");
 
@@ -720,7 +728,7 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<string>("Name")
                         .HasMaxLength(250)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Name");
 
@@ -809,21 +817,21 @@ namespace PIRIS_labs.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("TransactionTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TransferFromAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("TransferToAccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(13)");
 
                     b.HasKey("ID");
 

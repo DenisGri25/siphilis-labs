@@ -20,7 +20,7 @@ namespace PIRIS_labs.Services
       _dateService = dateService;
     }
 
-    public async Task<Transaction> CreateTransaction(Account fromAccount, Account toAccount, float amount)
+    public async Task<Transaction> CreateTransaction(Account fromAccount, Account toAccount, decimal amount)
     {
       if (amount <= 0 || fromAccount is null || toAccount is null)
       {
@@ -44,16 +44,16 @@ namespace PIRIS_labs.Services
       return transaction;
     }
 
-    private Account Income(Account account, double amount)
+    private Account Income(Account account, decimal amount)
     {
       switch (account.AccountPlan.Type)
       {
         case AccountType.Active:
-          account.DebitValue += (float)amount;
+          account.DebitValue += amount;
           break;
 
         case AccountType.Passive:
-          account.CreditValue += (float)amount;
+          account.CreditValue += amount;
           break;
 
         default:
@@ -63,7 +63,7 @@ namespace PIRIS_labs.Services
       return account;
     }
 
-    private Account Expenditure(Account account, float amount)
+    private Account Expenditure(Account account, decimal amount)
     {
       switch (account.AccountPlan.Type)
       {

@@ -74,7 +74,7 @@ namespace PIRIS_labs.Services
 
           await _unitOfWork.SaveAsync();
 
-          float amount = createCreditDto.Amount;
+          decimal amount = createCreditDto.Amount;
           var cashboxAccount = await _unitOfWork.Accounts.GetBankCashboxAccount();
           var developmentFundAccount = await _unitOfWork.Accounts.GetBankDevelopmentFundAccount();
 
@@ -126,14 +126,14 @@ namespace PIRIS_labs.Services
 
           if (clientPercentAccount.Balance < 0)
           {
-            float percentDebth = Math.Abs(clientPercentAccount.Balance);
+            decimal percentDebth = Math.Abs(clientPercentAccount.Balance);
             cashboxAccount.DebitValue += percentDebth;
             await _transactionsService.CreateTransaction(cashboxAccount, clientPercentAccount, percentDebth);
           }
 
           if (clientMainAccount.Balance > 0)
           {
-            float creditAmountLeft = clientMainAccount.Balance;
+            decimal creditAmountLeft = clientMainAccount.Balance;
             await _transactionsService.CreateTransaction(clientMainAccount, cashboxAccount, creditAmountLeft);
             cashboxAccount.CreditValue += creditAmountLeft;
           }
@@ -154,26 +154,26 @@ namespace PIRIS_labs.Services
       }
     }
 
-    private float CalculateCreditDebthAmount(Credit credit)
+    private decimal CalculateCreditDebthAmount(Credit credit)
     {
       var creditPlan = credit.CreditPlan;
       var creditPaymentPlan = CalculateCreditPaymentPlan(credit.Amount, creditPlan.Percent, creditPlan.MonthPeriod, creditPlan.Anuity, credit.StartDate);
 
-      return (float)creditPaymentPlan.Aggregate(0m, (debth, nextPayment) => nextPayment.Date >= _dateService.Today ? debth += (decimal)nextPayment.PaymentSum : debth);
+      return creditPaymentPlan.Aggregate(0m, (debth, nextPayment) => nextPayment.Date >= _dateService.Today ? debth += nextPayment.PaymentSum : debth);
     }
 
-    public List<CreditPercentsDto> CalculateCreditPaymentPlan(float creditAmount, float yearPercent, int months, bool anuity,
+    public List<CreditPercentsDto> CalculateCreditPaymentPlan(decimal creditAmount, decimal yearPercent, int months, bool anuity,
       DateTime startDate)
     {
       yearPercent /= 100;
       var result = new List<CreditPercentsDto>();
-      float mainDebth;
+      decimal mainDebth;
 
       if (anuity)
       {
         double monthPercent = (double)yearPercent / 12;
         double coef = monthPercent * Math.Pow(1 + monthPercent, months) / (Math.Pow(1 + monthPercent, months) - 1);
-        mainDebth = creditAmount * (float)coef;
+        mainDebth = creditAmount * (decimal)coef;
       }
       else
       {
@@ -182,7 +182,7 @@ namespace PIRIS_labs.Services
 
       for (int monthsPassed = 0; monthsPassed < months; monthsPassed++)
       {
-        float percentDebth = anuity
+        decimal percentDebth = anuity
           ? 0
           : (creditAmount - (mainDebth * monthsPassed)) * yearPercent / 12;
 
@@ -206,21 +206,21 @@ namespace PIRIS_labs.Services
 
       foreach (var creditPercentAccount in creditPercentAccounts.Where(dto => dto.Credit.EndDate >= _dateService.Today))
       {
-        float paymentAmount;
+        decimal paymentAmount;
         creditPercentAccount.CreditPercent /= 100;
 
         if (creditPercentAccount.Anuity)
         {
           double monthPercent = (double)creditPercentAccount.CreditPercent / 12;
           double mainDebth = monthPercent * Math.Pow(1 + monthPercent, creditPercentAccount.Months) / (Math.Pow(1 + monthPercent, creditPercentAccount.Months) - 1);
-          paymentAmount = creditPercentAccount.Credit.Amount * (float)mainDebth;
+          paymentAmount = creditPercentAccount.Credit.Amount * (decimal)mainDebth;
         }
         else
         {
           int monthsPassed = _dateService.Today.GetMonthDifference(creditPercentAccount.Credit.StartDate);
 
-          float mainDebth = creditPercentAccount.Credit.Amount / creditPercentAccount.Months;
-          float percentDebth = (creditPercentAccount.Credit.Amount - (mainDebth * monthsPassed)) * (float)creditPercentAccount.CreditPercent / 12;
+          decimal mainDebth = creditPercentAccount.Credit.Amount / creditPercentAccount.Months;
+          decimal percentDebth = (creditPercentAccount.Credit.Amount - (mainDebth * monthsPassed)) * creditPercentAccount.CreditPercent / 12;
           paymentAmount = mainDebth + percentDebth;
         }
 

@@ -11,7 +11,8 @@ namespace PIRIS_labs.Migrations
         table: "Accounts",
         type: "int",
         nullable: true,
-        computedColumnSql: "CAST(SUBSTRING([Number], 10, 3) AS INT)");
+        computedColumnSql: "CAST(SUBSTRING([Number], 10, 3) AS INT)",
+        stored: true);
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)

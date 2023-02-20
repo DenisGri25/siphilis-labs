@@ -53,7 +53,7 @@ namespace PIRIS_labs.Services
       };
     }
 
-    public async Task<ResultDto> WithdrawCash(CreditCardDto creditCardDto, float amount)
+    public async Task<ResultDto> WithdrawCash(CreditCardDto creditCardDto, decimal amount)
     {
       var creditCard = await _unitOfWork.CreditCards.GetFirstWhereAsync(card => card.Number == creditCardDto.Number);
 

@@ -9,7 +9,7 @@ namespace PIRIS_labs.Data.Entities
 
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public float Amount { get; set; }
+    public decimal Amount { get; set; }
     public bool Closed { get; set; }
 
     [Required]

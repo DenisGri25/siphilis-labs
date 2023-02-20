@@ -9,7 +9,7 @@ namespace PIRIS_labs.Data.Entities
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid ID { get; set; }
 
-    public float Amount { get; set; }
+    public decimal Amount { get; set; }
     public DateTime TransactionTime { get; set; }
 
     [Required]

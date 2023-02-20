@@ -17,7 +17,7 @@ namespace PIRIS_labs.DTOs.Credit
 
     [Required]
     [Range(1, 5000, ErrorMessage = "Percent should be in [1, 5000]")]
-    public float Percent { get; set; }
+    public decimal Percent { get; set; }
 
     [Range(1, 100_000_000_000, ErrorMessage = "Min amount should be in [1, 100_000_000_000] or NULL")]
     public decimal? MinAmount { get; set; }

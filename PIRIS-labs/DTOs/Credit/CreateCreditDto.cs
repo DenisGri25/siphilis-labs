@@ -6,7 +6,7 @@ namespace PIRIS_labs.DTOs.Credit
   public class CreateCreditDto
   {
     [Required]
-    public float Amount { get; set; }
+    public decimal Amount { get; set; }
 
     [Required]
     public Guid ClientID { get; set; }
